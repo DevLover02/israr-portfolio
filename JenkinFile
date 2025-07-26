@@ -30,5 +30,12 @@ pipeline {
         sh 'docker push $IMAGE_NAME:$TAG'
       }
     }
+    stage('SonarQube Analysis') {
+      steps {
+        withSonarQubeEnv('SonarQube') {
+          sh 'sonar-scanner -Dsonar.projectKey=static-site -Dsonar.sources=.'
+    }
+  }
+}
   }
 }
