@@ -2,17 +2,18 @@ pipeline {
   agent any
   environment {
     IMAGE_NAME = "byisrar/israr-portfolio"
+    TAG = "${BUILD_NUMBER}"
   }
   stages {
     stage('Clone') {
       steps {
-        git 'https://github.com/DevLover02/israr-portfolio.git'
+        git branch: 'main', url: 'https://github.com/DevLover02/israr-portfolio.git'
       }
     }
 
     stage('Build') {
       steps {
-        sh 'docker build -t $IMAGE_NAME .'
+        sh 'docker build -t $IMAGE_NAME:$TAG .'
       }
     }
 
@@ -26,7 +27,7 @@ pipeline {
 
     stage('Push') {
       steps {
-        sh 'docker push $IMAGE_NAME'
+        sh 'docker push $IMAGE_NAME:$TAG'
       }
     }
   }
